@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Chatr.Language</AssemblyName>
+        <RootNamespace>Chatr.Language</RootNamespace>
+    </PropertyGroup>
+</Project>
