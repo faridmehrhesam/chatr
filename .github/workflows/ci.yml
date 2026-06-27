@@ -31,6 +31,7 @@ jobs:
         run: dotnet nbgv cloud -a
 
       - name: Begin SonarCloud analysis
+        if: github.actor != 'dependabot[bot]'
         env:
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
           SONAR_ORG: ${{ secrets.SONAR_ORG }}
@@ -60,6 +61,7 @@ jobs:
         continue-on-error: true
 
       - name: End SonarCloud analysis
+        if: github.actor != 'dependabot[bot]'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
@@ -97,7 +99,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           dotnet nbgv tag
-          TAG=$(git describe --exact-match HEAD)
+          TAG=$(git tag --points-at HEAD)
           if ! git ls-remote --exit-code --tags origin "refs/tags/$TAG"; then
             git push origin "refs/tags/$TAG"
           fi
