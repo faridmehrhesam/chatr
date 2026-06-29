@@ -1,0 +1,54 @@
+{
+    "realm": "studio",
+    "displayName": "Chatr Studio Sign-In",
+    "enabled": true,
+    "clients": [
+        {
+            "clientId": "studio-api",
+            "enabled": true,
+            "publicClient": false,
+            "protocol": "openid-connect"
+        },
+        {
+            "clientId": "studio-web",
+            "enabled": true,
+            "publicClient": true,
+            "protocolMappers": [
+                {
+                    "name": "studio-api-audience",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-audience-mapper",
+                    "config": {
+                        "included.client.audience": "studio-api",
+                        "access.token.claim": "true"
+                    }
+                }
+            ],
+            "redirectUris": [
+                "http://localhost:5058/authentication/login-callback",
+                "https://localhost:7113/authentication/login-callback",
+                "http://localhost:5058/authentication/logout-callback",
+                "https://localhost:7113/authentication/logout-callback"
+            ],
+            "webOrigins": [
+                "+"
+            ],
+            "protocol": "openid-connect",
+            "standardFlowEnabled": true
+        }
+    ],
+    "users": [
+        {
+            "username": "dev",
+            "enabled": true,
+            "email": "dev@chatr.local",
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "dev",
+                    "temporary": false
+                }
+            ]
+        }
+    ]
+}

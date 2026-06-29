@@ -9,10 +9,19 @@
     <File Path="global.json" />
     <File Path="version.json" />
   </Folder>
+  <Folder Name="/Solution Items/keycloak/">
+    <File Path="keycloak/studio-realm.json" />
+  </Folder>
   <Folder Name="/src/">
+    <Project Path="src/AppHost/AppHost.csproj" />
+    <Project Path="src/ServiceDefaults/ServiceDefaults.csproj" />
     <Project Path="src/Language/Language.csproj" />
+    <Project Path="src/Studio.Api/Studio.Api.csproj" />
+    <Project Path="src/Studio.Web/Studio.Web.csproj" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="test/Language.L0Test/Language.L0Test.csproj" />
+    <Project Path="test/Studio.Api.L0Test/Studio.Api.L0Test.csproj" />
+    <Project Path="test/Studio.Api.L2Test/Studio.Api.L2Test.csproj" />
   </Folder>
 </Solution>
