@@ -54,7 +54,7 @@ public static class Analyzer
 
         public override void VisitTableDeclaration(TableDeclaration node)
         {
-            if (node.Columns.Count == 0 || node.Columns.All(c => c.Type == TypeKind.Error))
+            if (node.Columns.Count == 0 || AllColumnsAreErrors(node.Columns))
             {
                 Emit("Table must have at least one column", node.Name);
                 return;
@@ -79,6 +79,18 @@ public static class Analyzer
                     Emit($"Duplicate column name '{nameSpan}'", column.Name);
                 }
             }
+        }
+
+        private static bool AllColumnsAreErrors(IReadOnlyList<ColumnDefinition> columns)
+        {
+            for (var i = 0; i < columns.Count; i++)
+            {
+                if (columns[i].Type != TypeKind.Error)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private ReadOnlySpan<char> GetText(Span span)

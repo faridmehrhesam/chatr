@@ -1,0 +1,20 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Chatr.AppHost</AssemblyName>
+    <RootNamespace>Chatr.AppHost</RootNamespace>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>d2c3370d-3f20-428d-9572-286536272578</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Keycloak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Studio.Api\Studio.Api.csproj" />
+    <ProjectReference Include="..\Studio.Web\Studio.Web.csproj" />
+  </ItemGroup>
+
+</Project>

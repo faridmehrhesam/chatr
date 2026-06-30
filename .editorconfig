@@ -108,6 +108,9 @@ dotnet_diagnostic.IDE0130.severity = warning
 dotnet_diagnostic.IDE0078.severity = warning
 dotnet_diagnostic.IDE0260.severity = warning
 
+# Declare types in namespaces
+dotnet_diagnostic.CA1050.severity = warning
+
 # Overload operators when implementing Equals
 dotnet_diagnostic.CA2231.severity = warning
 
@@ -119,6 +122,9 @@ dotnet_diagnostic.IDE0305.severity = warning
 
 # Primary constructor
 dotnet_diagnostic.IDE0290.severity = none
+
+# Use expression body for lambda expressions
+dotnet_diagnostic.IDE0053.severity = warning
 
 # xUnit: Type assertions based on 'assignable from' are confusingly named
 dotnet_diagnostic.xUnit2032.severity = warning
