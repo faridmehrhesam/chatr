@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
 using Chatr.ServiceDefaults;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+[assembly: ExcludeFromCodeCoverage]
 
 var builder = WebApplication.CreateBuilder(args);
 

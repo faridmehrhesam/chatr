@@ -1,7 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Chatr.Studio.Web;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
+[assembly: ExcludeFromCodeCoverage]
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
