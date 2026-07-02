@@ -1,0 +1,28 @@
+@inject EditorSessionService SessionService
+@implements IDisposable
+
+<div class="file-tree">
+    @foreach (var path in SessionService.FilePaths)
+    {
+        <div class="file-tree-item @(path == SessionService.CurrentFilePath ? "active" : "")"
+             @onclick="() => SelectFile(path)">
+            @path
+        </div>
+    }
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        SessionService.StateChanged += OnStateChanged;
+    }
+
+    private void OnStateChanged() => InvokeAsync(StateHasChanged);
+
+    private async Task SelectFile(string path)
+    {
+        await SessionService.SelectFileAsync(path);
+    }
+
+    public void Dispose() => SessionService.StateChanged -= OnStateChanged;
+}

@@ -1,4 +1,5 @@
 using Chatr.Studio.Web;
+using Chatr.Studio.Web.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -31,5 +32,7 @@ builder.Services.AddHttpClient("StudioApi", client =>
     .AddHttpMessageHandler(sp =>
         sp.GetRequiredService<AuthorizationMessageHandler>()
           .ConfigureHandler(authorizedUrls: [apiBaseUrl]));
+
+builder.Services.AddScoped<EditorSessionService>();
 
 await builder.Build().RunAsync();

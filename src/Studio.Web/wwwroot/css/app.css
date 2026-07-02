@@ -57,3 +57,100 @@ html, body {
 .loading-progress-text::after {
     content: var(--blazor-load-percentage-text, "Loading");
 }
+
+/* Editor shell layout */
+.editor-shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 1fr 180px;
+    height: calc(100vh - 48px);
+    overflow: hidden;
+}
+
+/* File tree */
+.file-tree {
+    grid-row: 1 / 3;
+    overflow-y: auto;
+    background: #1e1e1e;
+    border-right: 1px solid #333;
+    padding: 8px 0;
+}
+
+.file-tree-item {
+    padding: 4px 12px;
+    cursor: pointer;
+    color: #ccc;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-tree-item:hover { background: #2a2d2e; }
+.file-tree-item.active { background: #094771; color: #fff; }
+
+/* Monaco wrapper */
+.monaco-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.editor-toolbar {
+    background: #2d2d2d;
+    padding: 4px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #aaa;
+    border-bottom: 1px solid #444;
+    flex-shrink: 0;
+}
+
+.save-status { color: #89d185; }
+
+.monaco-wrapper > div:last-child {
+    flex: 1;
+}
+
+/* Diagnostics panel */
+.diagnostics-panel {
+    background: #1e1e1e;
+    border-top: 1px solid #333;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.diagnostics-header {
+    padding: 4px 12px;
+    background: #252526;
+    color: #bbb;
+    font-weight: 600;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+}
+
+.diagnostics-empty {
+    padding: 8px 12px;
+    color: #666;
+}
+
+.diagnostics-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.diagnostic-row {
+    cursor: pointer;
+    color: #ccc;
+}
+
+.diagnostic-row:hover { background: #2a2d2e; }
+.diagnostic-row.error .diag-severity { color: #f48771; }
+.diagnostic-row.warning .diag-severity { color: #cca700; }
+
+.diag-severity { padding: 3px 8px; width: 20px; text-align: center; }
+.diag-message  { padding: 3px 8px; }
+.diag-location { padding: 3px 8px; color: #666; white-space: nowrap; }

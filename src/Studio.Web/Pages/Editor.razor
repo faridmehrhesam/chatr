@@ -1,0 +1,25 @@
+@page "/packages/{Id:guid}/edit"
+@attribute [Authorize]
+@inject EditorSessionService SessionService
+
+<div class="editor-shell">
+    <FileTree />
+    <MonacoEditor @ref="_monacoEditor" />
+    <DiagnosticsPanel OnGoToLine="GoToLine" />
+</div>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+
+    private MonacoEditor _monacoEditor = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SessionService.InitAsync(Id);
+    }
+
+    private async Task GoToLine(int line)
+    {
+        await _monacoEditor.ScrollToLineAsync(line);
+    }
+}

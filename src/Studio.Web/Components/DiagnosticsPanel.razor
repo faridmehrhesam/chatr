@@ -1,0 +1,43 @@
+@using Chatr.Language.Diagnostics
+@inject EditorSessionService SessionService
+@implements IDisposable
+
+<div class="diagnostics-panel">
+    <div class="diagnostics-header">Problems (@SessionService.Diagnostics.Count)</div>
+    @if (SessionService.Diagnostics.Count == 0)
+    {
+        <div class="diagnostics-empty">No problems detected.</div>
+    }
+    else
+    {
+        <table class="diagnostics-table">
+            @foreach (var d in SessionService.Diagnostics)
+            {
+                <tr class="diagnostic-row @(d.Severity == DiagnosticSeverity.Error ? "error" : "warning")"
+                    @onclick="() => GoToLine(d.Start.Line)">
+                    <td class="diag-severity">@(d.Severity == DiagnosticSeverity.Error ? "●" : "▲")</td>
+                    <td class="diag-message">@d.Message</td>
+                    <td class="diag-location">@SessionService.CurrentFilePath:@d.Start.Line:@d.Start.Column</td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+@code {
+    [Parameter] public EventCallback<int> OnGoToLine { get; set; }
+
+    protected override void OnInitialized()
+    {
+        SessionService.StateChanged += OnStateChanged;
+    }
+
+    private void OnStateChanged() => InvokeAsync(StateHasChanged);
+
+    private async Task GoToLine(int line)
+    {
+        await OnGoToLine.InvokeAsync(line);
+    }
+
+    public void Dispose() => SessionService.StateChanged -= OnStateChanged;
+}

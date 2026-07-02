@@ -24,6 +24,10 @@
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.0/min/vs/loader.js"></script>
+    <script>require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.0/min/vs' } });</script>
+    <script src="_content/BlazorMonaco/jsInterop.js"></script>
+    <script src="js/chatrlang-lang.js"></script>
     <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
 </body>

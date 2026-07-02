@@ -1,0 +1,86 @@
+@using Chatr.Language.Diagnostics
+@inject IJSRuntime JS
+@inject EditorSessionService SessionService
+@implements IDisposable
+
+<div class="monaco-wrapper">
+    <div class="editor-toolbar">
+        <span class="file-path">@SessionService.CurrentFilePath</span>
+        @if (SessionService.IsSaving)
+        {
+            <span class="save-status">Saving…</span>
+        }
+    </div>
+    <StandaloneCodeEditor @ref="_editor"
+                          Id="chatr-editor"
+                          ConstructionOptions="BuildOptions"
+                          OnDidChangeModelContent="OnContentChanged" />
+</div>
+
+@code {
+    private StandaloneCodeEditor _editor = null!;
+
+    protected override void OnInitialized()
+    {
+        SessionService.StateChanged += OnServiceStateChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await JS.InvokeVoidAsync("chatrlangLang.register");
+        await _editor.AddCommand((int)KeyMod.CtrlCmd | (int)KeyCode.KeyS,
+            async _ => await SessionService.SaveAsync(), null);
+    }
+
+    private StandaloneEditorConstructionOptions BuildOptions(StandaloneCodeEditor editor) => new()
+    {
+        Language = "chatrlang",
+        AutomaticLayout = true,
+        Theme = "vs-dark",
+        GlyphMargin = true,
+        Minimap = new EditorMinimapOptions { Enabled = false }
+    };
+
+    private void OnContentChanged(ModelContentChangedEvent _)
+    {
+        InvokeAsync(async () =>
+        {
+            var content = await _editor.GetValue();
+            SessionService.OnContentChanged(content);
+        });
+    }
+
+    private void OnServiceStateChanged()
+    {
+        InvokeAsync(async () =>
+        {
+            var editorValue = await _editor.GetValue();
+            if (editorValue != SessionService.CurrentContent)
+                await _editor.SetValue(SessionService.CurrentContent);
+
+            var model = await _editor.GetModel();
+            var markers = SessionService.Diagnostics.Select(d => new MarkerData
+            {
+                Message = d.Message,
+                Severity = d.Severity == DiagnosticSeverity.Error
+                    ? MarkerSeverity.Error
+                    : MarkerSeverity.Warning,
+                StartLineNumber = d.Start.Line,
+                StartColumn = d.Start.Column,
+                EndLineNumber = d.End.Line,
+                EndColumn = d.End.Column
+            }).ToList();
+
+            await Global.SetModelMarkers(JS, model, "chatrlang", markers);
+            StateHasChanged();
+        });
+    }
+
+    public async Task ScrollToLineAsync(int line)
+    {
+        await _editor.RevealLineInCenter(line, ScrollType.Smooth);
+    }
+
+    public void Dispose() => SessionService.StateChanged -= OnServiceStateChanged;
+}
